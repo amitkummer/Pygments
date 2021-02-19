@@ -298,7 +298,7 @@ class CppLexer(CFamilyLexer):
             (r'(class|concept|typename)(\s+)', bygroups(Keyword, Text), 'classname'),
             (words((
                 'catch', 'const_cast', 'delete', 'dynamic_cast', 'explicit',
-                'export', 'friend', 'mutable', 'namespace', 'new', 'operator',
+                'export', 'friend', 'mutable', 'new', 'operator',
                 'private', 'protected', 'public', 'reinterpret_cast', 'class',
                 'restrict', 'static_cast', 'template', 'this', 'throw', 'throws',
                 'try', 'typeid', 'using', 'virtual', 'constexpr', 'nullptr', 'concept',
@@ -306,6 +306,7 @@ class CppLexer(CFamilyLexer):
                 'co_await', 'co_return', 'co_yield', 'requires', 'import', 'module',
                 'typename'),
                suffix=r'\b'), Keyword),
+            (r'namespace\b', Keyword, 'namespace'),
             (r'char(16_t|32_t|8_t)\b', Keyword.Type),
             (r'(enum)(\s+)', bygroups(Keyword, Text), 'enumname'),
 
@@ -332,6 +333,12 @@ class CppLexer(CFamilyLexer):
             # template specification
             (r'\s*(?=>)', Text, '#pop'),
             default('#pop')
+        ],
+        'namespace': [
+            (r'[;{]', Punctuation, ('#pop', 'root')),
+            (r'inline', Keyword),
+            (CFamilyLexer._ident, Name.Namespace),
+            include('statement')
         ]
     }
 
