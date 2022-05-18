@@ -41,12 +41,17 @@ help:
 clean:
 	-rm -rf $(BUILDDIR)/*
 
-html:
+pyodide:
+	$(if $(WEBSITE_BUILD), \
+	  docker build -f _pyodide/Dockerfile -o $(BUILDDIR)/pyodide/pyodide .. &&\
+	  echo "Pyodide build finished. The Pyodide artifacts are in $(BUILDDIR)/pyodide.")
+
+html: pyodide
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-dirhtml:
+dirhtml: pyodide
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/dirhtml."

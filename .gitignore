@@ -13,6 +13,7 @@
 /build/*
 /dist/*
 /doc/_build
+/doc/_static/pyodide
 /.coverage
 /htmlcov
 /.vscode
