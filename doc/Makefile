@@ -18,6 +18,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
+	@echo "  pyodide    to make Pyodide built with Pygments from current checkout"
 	@echo "  html       to make standalone HTML files"
 	@echo "  dirhtml    to make HTML files named index.html in directories"
 	@echo "  singlehtml to make a single large HTML file"
@@ -42,16 +43,19 @@ clean:
 	-rm -rf $(BUILDDIR)/*
 
 pyodide:
-	$(if $(WEBSITE_BUILD), \
-	  docker build -f _pyodide/Dockerfile -o $(BUILDDIR)/pyodide/pyodide .. &&\
-	  echo "Pyodide build finished. The Pyodide artifacts are in $(BUILDDIR)/pyodide.")
+	$(if $(test ! -f docker), $(error "Could not find Docker. Please install that before continuing."))
+	docker build --file _pyodide/Dockerfile --output $(BUILDDIR)/pyodide/pyodide ..
+	@echo
+	@echo "Pyodide build finished. The Pyodide artifacts are in $(BUILDDIR)/pyodide."
 
-html: pyodide
+html:
+	$(if $(WEBSITE_BUILD), $(MAKE) pyodide)
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-dirhtml: pyodide
+dirhtml:
+	$(if $(WEBSITE_BUILD), $(MAKE) pyodide)
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/dirhtml."
