@@ -17,6 +17,10 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Sphinx & WCAG contrast ratio
       run: pip install Sphinx wcag-contrast-ratio
+    - name: Pyodide build
+      run: |
+        cd doc
+        make pyodide
     - name: Sphinx build
       run: |
         cd doc
@@ -24,6 +28,9 @@ jobs:
         touch _build/dirhtml/.nojekyll
         echo -e 'pygments.org\nwww.pygments.org' > _build/dirhtml/CNAME
         echo 'Automated deployment of docs for GitHub pages.' > _build/dirhtml/README
+    - name: Debug
+      run: |
+        ls -la ./doc/_build/dirhtml
     - name: Deploy to repo
       uses: peaceiris/actions-gh-pages@v3
       with:
