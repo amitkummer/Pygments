@@ -23,6 +23,10 @@ jobs:
         make pyodide
     - name: Debug
       run: |
+        ls -la .
+        ls -la ./doc
+        ls -la ./doc/_build
+        ls -la ./doc/_build/pyodide
         ls -la ./doc/_build/pyodide/pyodide
     - name: Sphinx build
       run: |
