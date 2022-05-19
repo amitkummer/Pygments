@@ -21,6 +21,9 @@ jobs:
       run: |
         cd doc
         make pyodide
+    - name: Debug
+      run: |
+        ls -la ./doc/_build/dirhtml/pyodide/pyodide
     - name: Sphinx build
       run: |
         cd doc
@@ -30,7 +33,8 @@ jobs:
         echo 'Automated deployment of docs for GitHub pages.' > _build/dirhtml/README
     - name: Debug
       run: |
-        ls -la ./doc/_build/dirhtml
+        ls -la ./doc/_build/dirhtml/_static
+        ls -la ./doc/_build/dirhtml/_static/pyodide
     - name: Deploy to repo
       uses: peaceiris/actions-gh-pages@v3
       with:
