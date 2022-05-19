@@ -20,7 +20,7 @@ jobs:
     - name: Pyodide build
       run: |
         cd doc
-        make pyodide
+        DOCKER_BUILDKIT=1 make pyodide
     - name: Debug
       run: |
         ls -la .
