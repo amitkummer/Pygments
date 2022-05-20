@@ -27,10 +27,7 @@ jobs:
         echo -e 'pygments.org\nwww.pygments.org' > _build/dirhtml/CNAME
         echo 'Automated deployment of docs for GitHub pages.' > _build/dirhtml/README
     - name: Deploy to repo
-      if: github.repository_owner == 'pygments'
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        external_repository: pygments/pygments.github.io
-        publish_branch: master
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./doc/_build/dirhtml
