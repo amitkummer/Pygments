@@ -1,4 +1,4 @@
-importScripts('pyodide/pyodide.js');
+importScripts('/_static/pyodide/pyodide.js');
 
 async function loadPyodideAndPygments() {
     self.pyodide = await loadPyodide();
